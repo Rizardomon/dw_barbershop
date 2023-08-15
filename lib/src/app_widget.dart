@@ -12,6 +12,7 @@ class AppWidget extends StatelessWidget {
       customLoader: const BarberShopLoader(),
       builder: (asyncNavigatorObserver) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'DW Barbershop',
           navigatorObservers: [asyncNavigatorObserver],
           routes: {
