@@ -1,7 +1,10 @@
 import 'package:asyncstate/widget/async_state_builder.dart';
-import 'package:dw_barbershop/src/core/ui/widgets/barber_shop_loader.dart';
-import 'package:dw_barbershop/src/features/splash/splash_page.dart';
 import 'package:flutter/material.dart';
+
+import 'core/ui/theme/barbershop_theme.dart';
+import 'core/ui/widgets/barber_shop_loader.dart';
+import 'features/auth/login/login_page.dart';
+import 'features/splash/splash_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -14,9 +17,11 @@ class AppWidget extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'DW Barbershop',
+          theme: BarbershopTheme.themeData,
           navigatorObservers: [asyncNavigatorObserver],
           routes: {
             '/': (context) => const SplashPage(),
+            '/auth/login': (context) => const LoginPage(),
           },
         );
       },
