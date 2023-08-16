@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/ui/theme/colors.dart';
+import '../../../core/ui/theme/images.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -13,7 +14,7 @@ class LoginPage extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/images/background_image_chair.jpg',
+              AppImages.backgroundChair,
             ),
             opacity: .2,
             fit: BoxFit.cover,
@@ -31,7 +32,7 @@ class LoginPage extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/imgLogo.png'),
+                        Image.asset(AppImages.logo),
                         const SizedBox(
                           height: 48,
                         ),

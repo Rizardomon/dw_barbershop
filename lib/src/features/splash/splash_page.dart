@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/ui/theme/images.dart';
 import '../auth/login/login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -35,7 +36,7 @@ class _SplashPageState extends State<SplashPage> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/images/background_image_chair.jpg',
+              AppImages.backgroundChair,
             ),
             opacity: .2,
             fit: BoxFit.cover,
@@ -67,7 +68,7 @@ class _SplashPageState extends State<SplashPage> {
               duration: const Duration(seconds: 3),
               curve: Curves.linearToEaseOut,
               child: Image.asset(
-                'assets/images/imgLogo.png',
+                AppImages.logo,
                 fit: BoxFit.cover,
               ),
             ),
