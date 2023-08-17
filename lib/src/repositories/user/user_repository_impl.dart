@@ -6,8 +6,10 @@ import 'package:dio/dio.dart';
 
 import './user_repository.dart';
 import '../../core/exceptions/auth_exception.dart';
+import '../../core/exceptions/repository_exception.dart';
 import '../../core/fp/either.dart';
 import '../../core/http/rest_client.dart';
+import '../../models/user_model.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final RestClient restClient;
@@ -41,6 +43,23 @@ class UserRepositoryImpl implements UserRepository {
       }
       log('Erro ao realizar login', error: e, stackTrace: s);
       return Failure(AuthError(message: e.message.toString()));
+    }
+  }
+
+  @override
+  Future<Either<RepositoryException, UserModel>> me() async {
+    try {
+      final Response(:data) = await restClient.auth.get(
+        '/me',
+      );
+
+      return Success(UserModel.fromMap(data));
+    } on DioException catch (e, s) {
+      log('Erro ao buscar usuário logado', error: e, stackTrace: s);
+      return Failure(RepositoryException(message: e.message.toString()));
+    } on ArgumentError catch (e, s) {
+      log('Invalid JSON', error: e, stackTrace: s);
+      return Failure(RepositoryException(message: e.message));
     }
   }
 }
