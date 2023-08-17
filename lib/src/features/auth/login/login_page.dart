@@ -170,10 +170,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
