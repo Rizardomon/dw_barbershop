@@ -1,6 +1,9 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../models/barbershop_model.dart';
 import '../../models/user_model.dart';
+import '../../repositories/barbershop/barbershop_repository.dart';
+import '../../repositories/barbershop/barbershop_repository_impl.dart';
 import '../../repositories/user/user_repository.dart';
 import '../../repositories/user/user_repository_impl.dart';
 import '../../services/user_login/user_login_service.dart';
@@ -28,6 +31,22 @@ Future<UserModel> getMe(GetMeRef ref) async {
 
   return switch (result) {
     Success(value: final userModel) => userModel,
+    Failure(:final exception) => throw exception,
+  };
+}
+
+@Riverpod(keepAlive: true)
+BarbershopRepository barbershopRepository(BarbershopRepositoryRef ref) =>
+    BarbershopRepositoryImpl(restClient: ref.read(restClientProvider));
+
+@Riverpod(keepAlive: true)
+Future<BarbershopModel> getMyBarbershop(GetMyBarbershopRef ref) async {
+  final userModel = await ref.watch(getMeProvider.future);
+  final result =
+      await ref.watch(barbershopRepositoryProvider).getMyBarbershop(userModel);
+
+  return switch (result) {
+    Success(value: final barbershopModel) => barbershopModel,
     Failure(:final exception) => throw exception,
   };
 }
