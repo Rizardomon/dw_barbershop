@@ -22,6 +22,8 @@ class AppWidget extends StatelessWidget {
           routes: {
             '/': (context) => const SplashPage(),
             '/auth/login': (context) => const LoginPage(),
+            '/home/adm': (context) => const Text('ADM'),
+            '/home/employee': (context) => const Text('EMPLOYEE'),
           },
         );
       },
