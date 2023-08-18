@@ -1,25 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../../../core/ui/helpers/form_helper.dart';
 import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/widgets/hours_panel.dart';
 import '../../../../core/ui/widgets/week_days_panel.dart';
+import 'barbershop_register_state.dart';
+import 'barbershop_register_vm.dart';
 
-class BarbershopRegisterPage extends StatefulWidget {
+class BarbershopRegisterPage extends ConsumerStatefulWidget {
   const BarbershopRegisterPage({super.key});
 
   @override
-  State<BarbershopRegisterPage> createState() => _BarbershopRegisterPageState();
+  ConsumerState<BarbershopRegisterPage> createState() =>
+      _BarbershopRegisterPageState();
 }
 
-class _BarbershopRegisterPageState extends State<BarbershopRegisterPage> {
+class _BarbershopRegisterPageState
+    extends ConsumerState<BarbershopRegisterPage> {
   final formKey = GlobalKey<FormState>();
   final nameEC = TextEditingController();
   final emailEC = TextEditingController();
 
   @override
+  void dispose() {
+    nameEC.dispose();
+    emailEC.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final barbershopRegisterVm =
+        ref.watch(barbershopRegisterVmProvider.notifier);
+
+    ref.listen(barbershopRegisterVmProvider, (_, state) {
+      switch (state.status) {
+        case BarbershopRegisterStateStatus.initial:
+          break;
+        case BarbershopRegisterStateStatus.success:
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home/adm', (route) => false);
+        case BarbershopRegisterStateStatus.error:
+          Messages.showError(
+            'Desculpe, ocorreu um erro ao rgistrar barbearia',
+            context,
+          );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastrar estabelecimento'),
@@ -27,62 +57,71 @@ class _BarbershopRegisterPageState extends State<BarbershopRegisterPage> {
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextFormField(
-                controller: nameEC,
-                onTapOutside: (_) => context.unfocus(),
-                validator: Validatorless.required('Nome obrigatório'),
-                decoration: const InputDecoration(
-                  label: Text('Nome'),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: nameEC,
+                  onTapOutside: (_) => context.unfocus(),
+                  validator: Validatorless.required('Nome obrigatório'),
+                  decoration: const InputDecoration(
+                    label: Text('Nome'),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              TextFormField(
-                controller: emailEC,
-                onTapOutside: (_) => context.unfocus(),
-                validator: Validatorless.multiple([
-                  Validatorless.required('E-mail obrigatório'),
-                  Validatorless.email('E-mail inválido'),
-                ]),
-                decoration: const InputDecoration(
-                  label: Text('E-mail'),
+                const SizedBox(height: 24),
+                TextFormField(
+                  controller: emailEC,
+                  onTapOutside: (_) => context.unfocus(),
+                  validator: Validatorless.multiple([
+                    Validatorless.required('E-mail obrigatório'),
+                    Validatorless.email('E-mail inválido'),
+                  ]),
+                  decoration: const InputDecoration(
+                    label: Text('E-mail'),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              const WeekDaysPanel(),
-              const SizedBox(height: 24),
-              const HoursPanel(
-                startTime: 6,
-                endTime: 23,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(56),
+                const SizedBox(height: 24),
+                WeekDaysPanel(
+                  onDayPressed: (value) {
+                    barbershopRegisterVm.addOrRemoveOpenDay(value);
+                  },
                 ),
-                onPressed: () {
-                  switch (formKey.currentState?.validate()) {
-                    case (false || null):
-                      // Mostrar uma mensagem de erro
-                      Messages.showError(
-                        'Formulário inválido',
-                        context,
-                      );
-                      break;
-                    case (true):
-                    // userRegisterVm.register(
-                    //   name: nameEC.text,
-                    //   email: emailEC.text,
-                    //   password: passwordEC.text,
-                    // );
-                  }
-                },
-                child: const Text(
-                  'CADASTRAR ESTABELECIMENTO',
+                const SizedBox(height: 24),
+                HoursPanel(
+                  startTime: 6,
+                  endTime: 23,
+                  onHourPressed: (value) {
+                    barbershopRegisterVm.addOrRemoveOpenHours(value);
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(56),
+                  ),
+                  onPressed: () {
+                    switch (formKey.currentState?.validate()) {
+                      case (false || null):
+                        // Mostrar uma mensagem de erro
+                        Messages.showError(
+                          'Formulário inválido',
+                          context,
+                        );
+                        break;
+                      case (true):
+                        barbershopRegisterVm.register(
+                          nameEC.text,
+                          emailEC.text,
+                        );
+                    }
+                  },
+                  child: const Text(
+                    'CADASTRAR ESTABELECIMENTO',
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

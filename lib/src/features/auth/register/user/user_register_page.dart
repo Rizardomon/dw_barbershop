@@ -100,6 +100,7 @@ class _UserRegisterPageState extends ConsumerState<UserRegisterPage> {
                       'Senha diferente de confirmar senha',
                     ),
                   ]),
+                  obscureText: true,
                   decoration: const InputDecoration(
                     label: Text('Confirmar Senha'),
                   ),
