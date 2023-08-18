@@ -5,7 +5,7 @@ import 'core/ui/barbershop_nav_global_key.dart';
 import 'core/ui/theme/barbershop_theme.dart';
 import 'core/ui/widgets/barber_shop_loader.dart';
 import 'features/auth/login/login_page.dart';
-import 'features/auth/register/user_register_page.dart';
+import 'features/auth/register/user/user_register_page.dart';
 import 'features/splash/splash_page.dart';
 
 class AppWidget extends StatelessWidget {
