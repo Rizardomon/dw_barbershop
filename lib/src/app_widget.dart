@@ -7,6 +7,7 @@ import 'core/ui/widgets/barber_shop_loader.dart';
 import 'features/auth/login/login_page.dart';
 import 'features/auth/register/barbershop/barbershop_register_page.dart';
 import 'features/auth/register/user/user_register_page.dart';
+import 'features/home/adm/home_adm_page.dart';
 import 'features/splash/splash_page.dart';
 
 class AppWidget extends StatelessWidget {
@@ -27,7 +28,7 @@ class AppWidget extends StatelessWidget {
             '/': (context) => const SplashPage(),
             '/auth/login': (context) => const LoginPage(),
             '/auth/register/user': (context) => const UserRegisterPage(),
-            '/home/adm': (context) => const Text('ADM'),
+            '/home/adm': (context) => const HomeAdmPage(),
             '/home/employee': (context) => const Text('EMPLOYEE'),
             '/auth/register/barbershop': (context) =>
                 const BarbershopRegisterPage(),
