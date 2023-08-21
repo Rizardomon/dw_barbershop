@@ -15,6 +15,16 @@
       "email": "teste@teste.com",
       "password": "123123",
       "profile": "ADM"
+    },
+    {
+      "id": 7,
+      "name": "Teste Employee",
+      "email": "employee@teste.com",
+      "password": "123123",
+      "profile": "EMPLOYEE",
+      "barbershop_id": 3,
+      "work_days": ["Seg", "Qua", "Sab"],
+      "work_hours": [6, 7, 8, 9, 18, 19, 20, 12, 13]
     }
   ],
   "adm_users": [],
