@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/barbershop_model.dart';
 import '../../models/user_model.dart';
@@ -10,6 +12,7 @@ import '../../services/user_login/user_login_service.dart';
 import '../../services/user_login/user_login_service_impl.dart';
 import '../fp/either.dart';
 import '../http/rest_client.dart';
+import '../ui/barbershop_nav_global_key.dart';
 
 part 'application_providers.g.dart';
 
@@ -49,4 +52,16 @@ Future<BarbershopModel> getMyBarbershop(GetMyBarbershopRef ref) async {
     Success(value: final barbershopModel) => barbershopModel,
     Failure(:final exception) => throw exception,
   };
+}
+
+@riverpod
+Future<void> logout(LogoutRef ref) async {
+  final sp = await SharedPreferences.getInstance();
+  sp.clear();
+
+  ref.invalidate(getMeProvider);
+  ref.invalidate(getMyBarbershopProvider);
+
+  Navigator.of(BarbershopNavGlobalKey.instance.navKey.currentContext!)
+      .pushNamedAndRemoveUntil('/auth/login', (route) => false);
 }
