@@ -181,22 +181,6 @@ class _SchedulePageState extends ConsumerState<SchedulePage> {
                               context,
                             );
                           }
-                        // final EmployeeRegisterState(
-                        //   workDays: List(isNotEmpty: hasWorkDays),
-                        //   workHours: List(isNotEmpty: hasWorkHours)
-                        // ) = ref.watch(employeeRegisterVmProvider);
-                        // if (!hasWorkDays || !hasWorkHours) {
-                        //   Messages.showError(
-                        //     'Por favor selecione os dias da semana e horário de atendimento',
-                        //     context,
-                        //   );
-                        //   return;
-                        // }
-                        // employeeRegisterVm.register(
-                        //   name: nameEC.text,
-                        //   email: emailEC.text,
-                        //   password: passwordEC.text,
-                        // );
                       }
                     },
                     child: const Text(
